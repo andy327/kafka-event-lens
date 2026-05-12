@@ -3,10 +3,13 @@ ThisBuild / homepage := Some(url("https://github.com/andy327/kafka-event-lens"))
 ThisBuild / description := "Kafka event streaming — producer, Kafka Streams processor, and consumer with Avro and Schema Registry"
 ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / versionScheme := Some("early-semver")
-ThisBuild / scalaVersion := "2.13.12"
+ThisBuild / scalaVersion := "2.13.14"
 ThisBuild / scalacOptions ++= Seq("-deprecation", "-Wunused", "-Wunused:imports")
 ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
+
+addCommandAlias("formatAll", ";scalafixAll;scalafixAll;scalafmtAll;scalafmtAll;scalafmtSbt")
+addCommandAlias("ci", ";clean;scalafixAll --check;scalafmtCheckAll;scalafmtSbtCheck;coverage;test;coverageReport")
 
 // Suppress -Wunused warnings in the sbt console so REPL use isn't noisy
 lazy val noUnusedInConsoles = {
@@ -14,18 +17,18 @@ lazy val noUnusedInConsoles = {
     opts.filterNot(o => o.startsWith("-Wunused") || o.startsWith("-Ywarn-unused"))
   Seq(
     Compile / console / scalacOptions := dropUnused((Compile / console / scalacOptions).value),
-    Test / console / scalacOptions := dropUnused((Test / console / scalacOptions).value),
+    Test / console / scalacOptions := dropUnused((Test / console / scalacOptions).value)
   )
 }
 
 val kafkaVersion = "3.7.0"
 val avro4sVersion = "4.1.2"
-val confluentVersion = "7.6.0"
+val confluentVersion = "7.7.0"
 val logbackVersion = "1.4.14"
 
 lazy val commonSettings = Seq(
-  resolvers += "Confluent Maven" at "https://packages.confluent.io/maven/",
-  libraryDependencies += "ch.qos.logback" % "logback-classic" % logbackVersion,
+  resolvers += "Confluent Maven".at("https://packages.confluent.io/maven/"),
+  libraryDependencies += "ch.qos.logback" % "logback-classic" % logbackVersion
 )
 
 lazy val common = project
@@ -38,7 +41,7 @@ lazy val common = project
       "org.apache.kafka" % "kafka-clients" % kafkaVersion,
       "com.sksamuel.avro4s" %% "avro4s-core" % avro4sVersion,
       "io.confluent" % "kafka-schema-registry-client" % confluentVersion,
-      "io.confluent" % "kafka-avro-serializer" % confluentVersion,
+      "io.confluent" % "kafka-avro-serializer" % confluentVersion
     )
   )
 
@@ -52,7 +55,7 @@ lazy val producer = project
     assembly / assemblyMergeStrategy := {
       case PathList("META-INF", xs @ _*) => MergeStrategy.discard
       case _                             => MergeStrategy.first
-    },
+    }
   )
 
 lazy val processor = project
@@ -64,12 +67,12 @@ lazy val processor = project
     name := "processor",
     libraryDependencies ++= Seq(
       "org.apache.kafka" % "kafka-streams" % kafkaVersion,
-      "org.apache.kafka" %% "kafka-streams-scala" % kafkaVersion,
+      "org.apache.kafka" %% "kafka-streams-scala" % kafkaVersion
     ),
     assembly / assemblyMergeStrategy := {
       case PathList("META-INF", xs @ _*) => MergeStrategy.discard
       case _                             => MergeStrategy.first
-    },
+    }
   )
 
 lazy val consumer = project
@@ -82,7 +85,7 @@ lazy val consumer = project
     assembly / assemblyMergeStrategy := {
       case PathList("META-INF", xs @ _*) => MergeStrategy.discard
       case _                             => MergeStrategy.first
-    },
+    }
   )
 
 lazy val root = project
@@ -90,5 +93,5 @@ lazy val root = project
   .aggregate(common, producer, processor, consumer)
   .settings(
     name := "kafka-event-lens",
-    assembly / aggregate := false,
+    assembly / aggregate := false
   )
