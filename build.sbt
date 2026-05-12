@@ -9,7 +9,10 @@ ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 addCommandAlias("formatAll", ";scalafixAll;scalafixAll;scalafmtAll;scalafmtAll;scalafmtSbt")
-addCommandAlias("ci", ";clean;scalafixAll --check;scalafmtCheckAll;scalafmtSbtCheck;coverage;test;coverageReport")
+addCommandAlias( // test and coverageReport scoped to common until other subprojects have tests
+  "ci",
+  ";clean;scalafixAll --check;scalafmtCheckAll;scalafmtSbtCheck;coverage;common/test;common/coverageReport"
+)
 
 // Suppress -Wunused warnings in the sbt console so REPL use isn't noisy
 lazy val noUnusedInConsoles = {
@@ -25,10 +28,12 @@ val kafkaVersion = "3.7.0"
 val avro4sVersion = "4.1.2"
 val confluentVersion = "7.7.0"
 val logbackVersion = "1.4.14"
+val scalatestVersion = "3.2.19"
 
 lazy val commonSettings = Seq(
   resolvers += "Confluent Maven".at("https://packages.confluent.io/maven/"),
-  libraryDependencies += "ch.qos.logback" % "logback-classic" % logbackVersion
+  libraryDependencies += "ch.qos.logback" % "logback-classic" % logbackVersion,
+  libraryDependencies += "org.scalatest" %% "scalatest" % scalatestVersion % Test
 )
 
 lazy val common = project
