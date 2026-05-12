@@ -5,6 +5,8 @@ ThisBuild / version := "0.1.0-SNAPSHOT"
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / scalaVersion := "2.13.12"
 ThisBuild / scalacOptions ++= Seq("-deprecation", "-Wunused", "-Wunused:imports")
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 // Suppress -Wunused warnings in the sbt console so REPL use isn't noisy
 lazy val noUnusedInConsoles = {
@@ -12,7 +14,7 @@ lazy val noUnusedInConsoles = {
     opts.filterNot(o => o.startsWith("-Wunused") || o.startsWith("-Ywarn-unused"))
   Seq(
     Compile / console / scalacOptions := dropUnused((Compile / console / scalacOptions).value),
-    Test    / console / scalacOptions := dropUnused((Test    / console / scalacOptions).value),
+    Test / console / scalacOptions := dropUnused((Test / console / scalacOptions).value),
   )
 }
 
