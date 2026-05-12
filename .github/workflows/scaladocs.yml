@@ -51,8 +51,10 @@ jobs:
         run: |
           mkdir -p _site
           for module in common producer processor consumer; do
-            mkdir -p _site/$module
-            cp -r $module/target/scala-2.13/api/. _site/$module/
+            if [ -d "$module/target/scala-2.13/api" ]; then
+              mkdir -p _site/$module
+              cp -r $module/target/scala-2.13/api/. _site/$module/
+            fi
           done
           touch _site/.nojekyll
 
