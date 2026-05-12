@@ -57,6 +57,22 @@ jobs:
             fi
           done
           touch _site/.nojekyll
+          # Root index linking to each module's docs
+          cat > _site/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+            <head><meta charset="utf-8"><title>kafka-event-lens — Scaladocs</title></head>
+            <body>
+              <h1>kafka-event-lens</h1>
+              <ul>
+                <li><a href="common/">common</a></li>
+                <li><a href="producer/">producer</a></li>
+                <li><a href="processor/">processor</a></li>
+                <li><a href="consumer/">consumer</a></li>
+              </ul>
+            </body>
+          </html>
+          EOF
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
