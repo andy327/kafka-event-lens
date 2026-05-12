@@ -1,0 +1,57 @@
+coverage:
+  status:
+    patch:
+      default:
+        target: 60%
+        threshold: 5%
+        informational: true
+        if_not_found: success
+    project:
+      common:
+        target: 80%
+        threshold: 1%
+        informational: true
+        if_not_found: success
+        flags:
+          - common
+      producer:
+        target: 60%
+        threshold: 1%
+        informational: true
+        if_not_found: success
+        flags:
+          - producer
+      processor:
+        target: 70%
+        threshold: 1%
+        informational: true
+        if_not_found: success
+        flags:
+          - processor
+      consumer:
+        target: 60%
+        threshold: 1%
+        informational: true
+        if_not_found: success
+        flags:
+          - consumer
+
+comment:
+  layout: "reach,diff,flags,files"
+  behavior: default
+  require_changes: false
+  after_n_builds: 1
+
+flags:
+  common:
+    paths:
+      - common/src/main/
+  producer:
+    paths:
+      - producer/src/main/
+  processor:
+    paths:
+      - processor/src/main/
+  consumer:
+    paths:
+      - consumer/src/main/
