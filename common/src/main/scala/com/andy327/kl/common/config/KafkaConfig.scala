@@ -22,6 +22,8 @@ object KafkaConfig {
     val UserActivityEnriched = "user-activity-enriched"
     val UserActivityDlq = "user-activity-dlq"
     val BusinessStatsChangelog = "business-stats-changelog"
+
+    val all: Seq[String] = Seq(UserActivityRaw, UserActivityEnriched, UserActivityDlq, BusinessStatsChangelog)
   }
 
   /** Consumer group ID constants for each application that reads from Kafka. */
