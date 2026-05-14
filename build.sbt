@@ -9,9 +9,9 @@ ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 
 addCommandAlias("formatAll", ";scalafixAll;scalafixAll;scalafmtAll;scalafmtAll;scalafmtSbt")
-addCommandAlias( // test and coverageReport scoped to common until other subprojects have tests
+addCommandAlias( // test and coverageReport scoped to common and producer until other subprojects have tests
   "ci",
-  ";clean;scalafixAll --check;scalafmtCheckAll;scalafmtSbtCheck;coverage;common/test;common/coverageReport"
+  ";clean;scalafixAll --check;scalafmtCheckAll;scalafmtSbtCheck;coverage;common/test;producer/test;common/coverageReport;producer/coverageReport;coverageAggregate"
 )
 
 // Suppress -Wunused warnings in the sbt console so REPL use isn't noisy
