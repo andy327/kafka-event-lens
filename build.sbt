@@ -72,7 +72,8 @@ lazy val processor = project
     name := "processor",
     libraryDependencies ++= Seq(
       "org.apache.kafka" % "kafka-streams" % kafkaVersion,
-      "org.apache.kafka" %% "kafka-streams-scala" % kafkaVersion
+      "org.apache.kafka" %% "kafka-streams-scala" % kafkaVersion,
+      "org.apache.kafka" % "kafka-streams-test-utils" % kafkaVersion % Test
     ),
     assembly / assemblyMergeStrategy := {
       case PathList("META-INF", xs @ _*) => MergeStrategy.discard

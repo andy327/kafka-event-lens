@@ -9,8 +9,9 @@ import com.andy327.kl.common.model._
 /** Generates a continuous stream of synthetic `ActivityEvent`s for use by the Kafka producer.
   *
   * @param random source of randomness; inject a seeded instance for reproducible output
+  * @param clock source of the current time in epoch milliseconds; inject a fixed value for reproducible output
   */
-class EventGenerator(random: Random = new Random()) {
+class EventGenerator(random: Random = new Random(), clock: () => Long = System.currentTimeMillis) {
 
   /** An infinite lazy stream of synthetic `ActivityEvent`s. */
   def stream(): LazyList[ActivityEvent] = LazyList.continually(nextEvent())
@@ -41,7 +42,7 @@ class EventGenerator(random: Random = new Random()) {
       userId = userId,
       businessId = businessId,
       eventType = eventType,
-      timestampMs = System.currentTimeMillis(),
+      timestampMs = clock(),
       payload = payload
     )
   }

@@ -10,7 +10,8 @@ import com.andy327.kl.common.model._
 final class EventGeneratorSpec extends AnyWordSpec {
 
   private val seed = 42L
-  private def seededGenerator = new EventGenerator(new Random(seed))
+  private val fixedClock: () => Long = () => 1_000_000L
+  private def seededGenerator = new EventGenerator(new Random(seed), fixedClock)
   private def sampleEvents(n: Int = 1000) = seededGenerator.stream().take(n).toList
 
   "EventGenerator" should {
